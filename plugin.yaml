@@ -10,19 +10,19 @@ spec:
       - "-c"
       - |
         if [[ -v ENV_NAME ]]; then
-          [[ ${HELMFILE_USE_CONTEXT_NAMESPACE:-false} = true ]] && {
+          [[ -v HELMFILE_USE_CONTEXT_NAMESPACE ]] && {
             helmfile -e $ENV_NAME template --include-crds -q
           } || {
             helmfile -n "$ARGOCD_APP_NAMESPACE" -e $ENV_NAME template --include-crds -q
           } 
         elif [[ -v ARGOCD_ENV_ENV_NAME ]]; then
-          [[ ${HELMFILE_USE_CONTEXT_NAMESPACE:-false} = true ]] && {
+          [[ -v HELMFILE_USE_CONTEXT_NAMESPACE ]] && {
             helmfile -e "$ARGOCD_ENV_ENV_NAME" template --include-crds -q
           } || {
             helmfile -n "$ARGOCD_APP_NAMESPACE" -e "$ARGOCD_ENV_ENV_NAME" template --include-crds -q
           }
         else
-          [[ ${HELMFILE_USE_CONTEXT_NAMESPACE:-false} = true ]] && {
+          [[ -v HELMFILE_USE_CONTEXT_NAMESPACE ]] && {
             helmfile template --include-crds -q
           } || {
             helmfile -n "$ARGOCD_APP_NAMESPACE" template --include-crds -q
